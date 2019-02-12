@@ -1,13 +1,29 @@
 from setuptools import setup, find_packages
 import sys
 
+with open('README.md', 'r') as infile:
+    long_descr = infile.read()
 
 setup(name="bing_website_finder",
       version='0.0.1',
 
-      description='See README.md',
-
+      description='Add websites to a list of companies from the commandline.',
+      long_description=long_descr,
       url='https://please.buythingsfrom.us',
+      classifiers=[
+          'Operating System :: OS Independent',
+          'Development Status :: 2 - Pre-Alpha',
+          'Environment :: Console',
+          'Framework :: AsyncIO',
+          'Natural Language :: English',
+          'Natural Language :: Esperanto',
+          'Topic :: Internet :: WWW/HTTP',
+          'Topic :: Internet :: Name Service (DNS)',
+          'Topic :: Internet :: WWW/HTTP :: Indexing/Search',
+          'Topic :: Internet :: WWW/HTTP :: Site Management',
+          'Topic :: Internet :: WWW/HTTP :: Site Management :: Link Checking',
+
+      ],
       author='Robert Truxal',
       author_email='rtruxal2020@outlook.com',
       license='MIT-like (see LICENCE file)',
@@ -31,5 +47,5 @@ setup(name="bing_website_finder",
       install_requires= [
           'aiohttp',
           'pandas'
-      ]
+      ],
     )

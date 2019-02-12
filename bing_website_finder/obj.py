@@ -100,3 +100,7 @@ class Worker(object):
             self.failed_attempts += 1
             print('WARN: Failed to get url info for {}.'.format(self.company_name))
             self.website = None
+
+
+if __name__ == "__main__":
+    pass
