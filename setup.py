@@ -1,13 +1,12 @@
 from setuptools import setup, find_packages
-import sys
 
 with open('README.md', 'r') as infile:
     long_descr = infile.read()
 
-setup(name="bing_website_finder",
+setup(name="bwf",
       version='0.0.1',
 
-      description='Add websites to a list of companies from the commandline.',
+      description='Bing Website Finder (bwf) adds websites to a list of company names from the commandline.',
       long_description=long_descr,
       url='https://please.buythingsfrom.us',
       classifiers=[
