@@ -1,9 +1,10 @@
-Bing Website Finder
+Bing Website Finder (`bwf`)
 ===================
 --------------------------
 
 ## Purpose:
 `bing_website_finder` (aka `bwf`) finds websites for an arbitrarily long list of company names.
+I does this using an `asyncio` event loop, and is therefore both exceptionally fast & requires `>=` python3.7
 
 <br>
 
@@ -15,6 +16,11 @@ Bing Website Finder
 <br>
 
 ## Installation:
+
+#### From pypi:
+```sh
+$ pip install bwf
+```
 
 #### Direct download:
 From the commandline run:
@@ -48,27 +54,29 @@ And then:
 ```
 
 
-#### From pypi (NOT IMPLEMENTED YET):
-```sh
-$ pip install bing-website-finder
-```
+
 <br>
 
 ## Configuration & Usage:
 
-#### Create a CSV input file:
+### STEP 1:
+#### Create a CSV input file
+The easiest way to glean the input format is by checking out `bing_website_finder/data/example_input_website_finder.csv` (which was gathered from [a very old SEC website](https://www.sec.gov/rules/other/4-460list.htm)) for a practical example.  
+
 Your input CSV **must** include the following 2 columns (case sensitive):
  - Company Name
  - Website  
 
-Check out `bing_website_finder/data/example_input_website_finder.csv` (which was gathered from [a very old SEC website](https://www.sec.gov/rules/other/4-460list.htm)) for a practical example.
 
-
-#### Permenantly store a Bing Search API Key in `config.py`:
+### STEP 2:
+#### Permenantly store a Bing Search API Key in `config.py`
 Locate the `bing_website_finder/config.py` file & modify this line:
 ```py
 DEFAULT_SEARCH_API_V7_KEY = 'CHANGE ME'
 ```
+
+### STEP 3:
+**IMPORTANT NOTE: `bwf` will fail silently if you do not change `api_key=none` nor modify : `DEFAULT_SEARCH_API_V7_KEY` inside of `config.py`**
 
 #### Python usage:
 You can find the primary interface inside of `bing_website_finder/get_websites.py`.  
@@ -86,7 +94,6 @@ def init(infilepth, outfilepth, verbose=False, api_key=None, num_workers=5):
 ```
 If you do not specify an `api_key` argument, the `DEFAULT_SEARCH_API_V7_KEY` variable in `bing_website_finder/config.py` will be used.
 
-**IMPORTANT NOTE: THE PROGRAM WILL FAIL SILENTLY IF YOU LEAVE `api_key=None` & DO NOT MODIFY : `DEFAULT_SEARCH_API_V7_KEY` INSIDE OF `config.py`**
 
 #### cmdline usage:
 Insallation via pip automatically creates an executable and places it in your $PYTHONPATH. 
