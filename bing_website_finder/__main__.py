@@ -4,6 +4,9 @@ import sys
 assert list(sys.version_info) >= [3, 7], \
     f"This program requires asyncio functionality introduced in Python 3.7.\nYou are currently using Python {sys.version_info.major}.{sys.version_info.minor}"
 
+
+##TODO: Add a pricing prompt (in obj.py) & a "-y" option to bypass it to the cmdline interface.
+
 from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
 from bing_website_finder.get_websites import init
 
