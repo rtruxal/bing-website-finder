@@ -4,7 +4,7 @@ Bing Website Finder (`bwf`)
 
 ## Purpose:
 `bing_website_finder` (aka `bwf`) finds websites for an arbitrarily long list of company names.
-I does this using an `asyncio` event loop, and is therefore both exceptionally fast & requires `>=` python3.7
+It does this using an `asyncio` event loop, and is therefore both exceptionally fast & requires `>=` python3.7
 
 <br>
 
