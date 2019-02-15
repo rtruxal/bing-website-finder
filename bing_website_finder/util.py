@@ -1,6 +1,18 @@
 import asyncio
 lock = asyncio.Lock()
 from math import isnan
+import re
+
+url_blacklist = {
+        'N/A',
+        'products.office.com',
+        'en.wikipedia.org',
+        'facebook.com',
+        'linkedin.com',
+        'bloomberg.com',
+        'gnu.org',
+    }
+
 
 async def find_empty_website(cache_record):
     async with lock:
@@ -37,3 +49,41 @@ async def set_company_website(cache_record, worker):
             print('successfully saved {} to {}'.format(worker.website, worker.company_name))
         else:
             print('{}\'s website info has already been populated or wasn\'t obtained correctly.'.format(worker.company_name))
+
+
+def strip_http_prefix(url_string):
+    """Uses regex grouping substitution.
+    Should return original string if 2nd capturing group doesn't catch."""
+    hypertext_prefix_stripper = r'(^https?:\/\/)(.*)'
+    return re.sub(hypertext_prefix_stripper, r'\2', url_string)
+
+def get_simple_domainname(url_string):
+    """Uses regex grouping substitution."""
+    hypertext_prefix_stripper = r'(^https?:\/\/)(www\.)?([^\/]*)(.*)$'
+    return re.sub(hypertext_prefix_stripper, r'\3', url_string)
+
+
+
+def _filter_blacklisted_urls_in_order(urls):
+    def _url_blacklist_filter(url):
+        return False if url in url_blacklist else True
+    for url in urls:
+        if _url_blacklist_filter(url):
+            yield url
+        else:
+            yield 'N/A'
+
+def filter_blacklisted_urls(urls, preserve_order=False):
+    """
+    :param urls: an iterable of website urls.
+    :param preserve_order: Setting this to true will take ~1,000x more time but preserve order. Default is False.
+    :return: a tuple of filtered urls.
+    """
+    if preserve_order is False:
+        return tuple(set(urls) - url_blacklist)
+    else:
+        return tuple(_filter_blacklisted_urls_in_order(urls))
+
+def email_query_generator(simple_urls):
+    for url in simple_urls:
+        yield {'q' : '+\"*@{}\"'.format(url)}
