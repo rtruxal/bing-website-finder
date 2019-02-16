@@ -50,6 +50,17 @@ async def set_company_website(cache_record, worker):
         else:
             print('{}\'s website info has already been populated or wasn\'t obtained correctly.'.format(worker.company_name))
 
+##TODO: FINISH THESE
+async def find_empty_email(cache_record):
+    async with lock:
+        for company, emails in zip(cache_record['Company Name'], cache_record['Emails']):
+            if not isinstance(emails, str) and isnan(emails):
+                cache_record.loc[cache_record['Company Name'] == company,'Emails'] = "In Progress"
+                return company
+            else:
+                continue
+        return 'FINISHED'
+
 
 def strip_http_prefix(url_string):
     """Uses regex grouping substitution.
@@ -86,4 +97,6 @@ def filter_blacklisted_urls(urls, preserve_order=False):
 
 def email_query_generator(simple_urls):
     for url in simple_urls:
-        yield {'q' : '+\"*@{}\"'.format(url)}
+        if not isinstance(url, str) and isnan(url):
+            pass
+        yield {'q' : '+"@{}"'.format(url)}

@@ -18,7 +18,7 @@ class SearchResultWeb(object):
 
         self.increment_next_offset_by = len(self.urls)
 
-class Worker(object):
+class WebsiteWorker(object):
     def __init__(self, shared_cache, api_key=None):
         self.shared_cache = shared_cache
         self.company_name = None
@@ -40,7 +40,7 @@ class Worker(object):
                 ## THIS IS THE STOP CONDITION.
                 if self._are_we_done_yet():
                     if verbose:
-                        print('INFO: Worker finished. Shutting down.')
+                        print('INFO: WebsiteWorker finished. Shutting down.')
                     break
                 if verbose:
                     print('INFO: Obtained Company Name')
@@ -100,6 +100,41 @@ class Worker(object):
             self.failed_attempts += 1
             print('WARN: Failed to get url info for {}.'.format(self.company_name))
             self.website = None
+##TODO: FINISH THIS
+class EmailWorker(object):
+    def __init__(self, shared_cache, api_key=None):
+        self.shared_cache = shared_cache
+        self.company_name = None
+        #TODO: SWAP OUT WEBSITE WITH EMAILS
+        self.website = None
+
+        self.headers = MY_HEADERS.copy()
+        if api_key:
+            self.headers['Ocp-Apim-Subscription-Key'] = api_key
+        self.params = MY_PARAMS.copy()
+        self.search_url = MY_ENDPOINT
+
+        self.failed_attempts = 0
+        self.mission_complete = False
+
+    async def _find_company_name(self):
+        self.company_name = await find_empty_website(self.shared_cache)
+        self.params['q'] = self.company_name
+
+    async def _call_bing(self):
+        async with aiohttp.ClientSession() as sesh:
+            async with sesh.get(
+                    self.search_url,
+                    headers=self.headers,
+                    params=self.params
+            ) as resp:
+                try:
+                    assert resp.status == 200
+                except AssertionError:
+                    # return an empty dict to purposefully throw the except: statement in `perform_mission()`
+                    return dict()
+                return await resp.json()
+    #TODO: FIGURE OUT HOW TO FIND EMAILS FROM SEARCH RESULTS.
 
 
 if __name__ == "__main__":
