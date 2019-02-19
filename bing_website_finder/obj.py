@@ -18,6 +18,7 @@ class SearchResultWeb(object):
 
         self.increment_next_offset_by = len(self.urls)
 
+
 class WebsiteWorker(object):
     def __init__(self, shared_cache, api_key=None):
         self.shared_cache = shared_cache
@@ -100,6 +101,8 @@ class WebsiteWorker(object):
             self.failed_attempts += 1
             print('WARN: Failed to get url info for {}.'.format(self.company_name))
             self.website = None
+
+
 ##TODO: FINISH THIS
 class EmailWorker(object):
     def __init__(self, shared_cache, api_key=None):
