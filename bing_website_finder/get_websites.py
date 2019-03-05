@@ -6,7 +6,7 @@ assert list(sys.version_info) >= [3, 7], \
     f"This program requires asyncio functionality introduced in Python 3.7.\nYou are currently using Python {sys.version_info.major}.{sys.version_info.minor}"
 
 
-from bing_website_finder.obj import WebsiteWorker
+from bing_website_finder.new_obj import WebsiteWorker
 
 async def _execute(workers, verbose, *, loop=None):
     if not loop:

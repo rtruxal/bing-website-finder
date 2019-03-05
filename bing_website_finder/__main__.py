@@ -4,8 +4,11 @@ import sys
 assert list(sys.version_info) >= [3, 7], \
     f"This program requires asyncio functionality introduced in Python 3.7.\nYou are currently using Python {sys.version_info.major}.{sys.version_info.minor}"
 
-from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
 from bing_website_finder.get_websites import init
+# For testing
+from bing_website_finder.myconfig import DEFAULT_SEARCH_API_V7_KEY as default_key
+# For production
+#from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
 
 def api_key_checks(cmdline_arg, default_key, verbose):
     if not cmdline_arg:

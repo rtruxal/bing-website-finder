@@ -2,6 +2,7 @@ import asyncio
 lock = asyncio.Lock()
 from math import isnan
 import re
+import sys
 
 url_blacklist = {
         'N/A',
@@ -16,13 +17,23 @@ url_blacklist = {
 
 async def find_empty_website(cache_record):
     async with lock:
-        for company, website in zip(cache_record['Company Name'], cache_record['Website']):
-            if not isinstance(website, str) and isnan(website):
-                cache_record.loc[cache_record['Company Name'] == company,'Website'] = "In Progress"
-                return company
-            else:
-                continue
-        return 'FINISHED'
+        try:
+            for company, website in zip(cache_record['Company Name'], cache_record['Website']):
+                if not isinstance(website, str) and isnan(website):
+                    cache_record.loc[cache_record['Company Name'] == company,'Website'] = "In Progress"
+                    return company
+                else:
+                    continue
+            return 'FINISHED'
+        except KeyError as err:
+            print('PLEASE CHECK THAT YOUR INPUT CSV HAS THE CORRECT COLUMN NAMES.')
+            sys.exit(-1)
+
+
+#TODO: this.
+async def find_empty_emails(cache_record):
+    async with lock:
+        pass
 
 
 async def ok_to_set_website(cache_record, worker):

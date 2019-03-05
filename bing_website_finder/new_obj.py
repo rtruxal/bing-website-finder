@@ -1,7 +1,8 @@
 import aiohttp
+import sys
+from time import sleep
 
-
-from bing_website_finder.config import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
+from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
 from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website
 
 class Worker(object):
@@ -38,11 +39,43 @@ class Worker(object):
                     params=self.params
             ) as resp:
                 try:
-                    assert resp.status == 200
+                    assert self.handle_api_response(resp)
                 except AssertionError:
                     # return an empty dict to purposefully throw the except: statement in `perform_mission()`
                     return dict()
                 return await resp.json()
+
+    def handle_api_response(self, resp):
+        """returns True if successful, False if not, and KeyError if the status code isn't in `errors.keys()`."""
+        if resp.status == 200:
+            return True
+        def handle_authentication_error():
+            print('ERROR: Your API key is invalid.\nExiting.')
+            sys.exit(-1)
+        def handle_bad_path_error():
+            print("ERROR: Your url endpoint path is invalid or doesn't match your API key.\nExiting.")
+            sys.exit(-1)
+        def handle_bad_query_error():
+            print("WARN: This worker has malformed url parameters & must be reconfigured.\nKilling this worker.")
+            self.mission_complete = True
+            return False
+        def handle_call_quota_error():
+            print("WARN: You've hit your call-per-second threshold. Blocking events for 1 second.")
+            sleep(1)
+            return False
+        def handle_server_error():
+            print("INFO: Bing is experiencing technical difficulties. Blocking events for 1 second.")
+            sleep(1)
+            return False
+        errors = {
+            400 : handle_bad_query_error,
+            401 : handle_authentication_error,
+            403 : handle_bad_path_error,
+            404 : handle_bad_path_error,
+            429 : handle_call_quota_error,
+            500 : handle_server_error
+        }
+        return errors[resp.status]()
 
 
 class WebsiteWorker(Worker):
@@ -85,7 +118,19 @@ class WebsiteWorker(Worker):
                 print('WARN: {} worker failed at obtaining data from Bing.'.format(self.company_name))
                 pass
 
+    async def _find_company_name(self):
+        self.company_name = await find_empty_website(self.shared_cache)
+        self.params['q'] = self.company_name
 
+    async def _try_set_results(self):
+        try:
+            await set_company_website(self.shared_cache, self)
+            self.company_name = None
+            self.website = None
+        except KeyError:
+            self.failed_attempts += 1
+            print('WARN: Failed to get url info for {}.'.format(self.company_name))
+            self.website = None
 
 class SearchResultWeb(object):
     def __init__(self, JSON):

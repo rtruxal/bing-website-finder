@@ -117,4 +117,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-Logging into OneGlass with your N3 CredentialsN3 OneGlass v4.0.808.0
+
+# mine
+.vscode/
+test/
+bing_website_finder/myconfig.py
