@@ -1,0 +1,234 @@
+{
+    "_type": "SearchResponse",
+    "queryContext": {
+        "originalQuery": "knbefx group"
+    },
+    "webPages": {
+        "webSearchUrl": "https://www.bing.com/search?q=knbefx+group",
+        "totalEstimatedMatches": 69400,
+        "value": [
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.0",
+                "name": "KNB EFX GROUP INC.",
+                "url": "http://knbefxgroup.com/",
+                "about": [
+                    {
+                        "name": "Howard Berger"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "knbefxgroup.com",
+                "snippet": "Special Makeup Effects by Howard Berger and Greg Nicotero of KNB EFX Group inc.",
+                "dateLastCrawled": "2019-03-02T15:43:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.1",
+                "name": "KNB EFX GROUP INC.",
+                "url": "https://www.knbefx.com/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.knbefx.com",
+                "snippet": "Welcome to KNB EFX GROUP's website. \u00a9 2016 All rights reserved. KNB EFX GROUP INC.",
+                "dateLastCrawled": "2019-03-01T03:14:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2",
+                "name": "KNB EFX Group, Inc - mapquest.com",
+                "url": "https://www.mapquest.com/us/california/knb-efx-group-inc-353290668",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.mapquest.com/us/california/knb-efx-group-inc-353290668",
+                "snippet": "The best special makeup effects company in the world! Over 900 film credits to their 27 years in the film industry as well as emmy awards for the many TV shows they are involved with.",
+                "dateLastCrawled": "2019-02-16T01:59:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.3",
+                "name": "Knb Efx - Home | Facebook",
+                "url": "https://www.facebook.com/knb.efx",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.facebook.com/knb.efx",
+                "snippet": "Knb Efx, Los Angeles, California. 27,428 likes \u00b7 11 talking about this. The official KNB efx group fan page. A place for fans and friends alike to...",
+                "dateLastCrawled": "2019-02-22T23:40:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4",
+                "name": "Filmography for Knb Efx Group, Inc. - tcm.com",
+                "url": "http://www.tcm.com/tcmdb/person/7917510%7C0/Knb-Efx-Group-Inc-/filmography.html",
+                "isFamilyFriendly": true,
+                "displayUrl": "www.tcm.com/tcmdb/person/7917510|0/Knb-Efx-Group-Inc-/filmography.html",
+                "snippet": "Get biography information about Knb Efx Group, Inc. on tcm.com",
+                "dateLastCrawled": "2019-03-03T05:55:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5",
+                "name": "IMDb: With KNB EFX Group (Sorted by Popularity Ascending)",
+                "url": "http://imdb.com/company/co0015640/",
+                "isFamilyFriendly": true,
+                "displayUrl": "imdb.com/company/co0015640",
+                "snippet": "With KNB EFX Group (Sorted by Popularity Ascending) ... Sheriff Deputy Rick Grimes wakes up from a coma to learn the world is in ruins, and must lead a group of survivors to stay alive. Stars: Andrew Lincoln, Norman Reedus, Melissa McBride, Lauren Cohan. Votes: 771,087. 2.",
+                "dateLastCrawled": "2019-02-15T07:41:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.6",
+                "name": "I want to work at KNB EFX Group - Jobs2Careers",
+                "url": "http://www.jobs2careers.com/local/knb-efx-group-n0Zzdk/",
+                "isFamilyFriendly": true,
+                "displayUrl": "www.jobs2careers.com/local/knb-efx-group-n0Zzdk",
+                "snippet": "Overview About KNB EFX Group: KNB EFX Group is a company in Chatsworth, CA categorized under professional.",
+                "dateLastCrawled": "2019-02-12T01:08:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.7",
+                "name": "Greg Nicotero - Wikipedia",
+                "url": "https://en.wikipedia.org/wiki/Gregory_Nicotero",
+                "about": [
+                    {
+                        "name": "Greg Nicotero"
+                    },
+                    {
+                        "name": "Greg Nicotero"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://en.wikipedia.org/wiki/Gregory_Nicotero",
+                "snippet": "Gregory Nicotero (born March 15, 1963) is an American special make-up effects creator, ... In 1988, along with Robert Kurtzman and Howard Berger, he formed KNB EFX Group, a special make-up effects studio which has gone on to work on over 400 film and television projects.",
+                "snippetAttribution": {
+                    "license": {
+                        "name": "CC-BY-SA",
+                        "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+                    },
+                    "licenseNotice": "Text under CC-BY-SA license"
+                },
+                "dateLastCrawled": "2019-02-27T18:51:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.8",
+                "name": "Robert Kurtzman - Wikipedia",
+                "url": "https://en.wikipedia.org/wiki/Robert_Kurtzman",
+                "thumbnailUrl": "https://www.bing.com/th?id=OIP.ARPR8jCfo38EaJI7elzFqgAAAA&pid=Api",
+                "about": [
+                    {
+                        "name": "Robert Kurtzman"
+                    },
+                    {
+                        "name": "Robert Kurtzman"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://en.wikipedia.org/wiki/Robert_Kurtzman",
+                "snippet": "Robert Kurtzman (born November 25, 1964) is an American film director, producer, screenwriter, and special make-up effects creator. Career. Kurtzman began his career ... Makeup effects supervisor: KNB EFX Group; House on Haunted Hill (1999) - Special makeup effects; From Dusk Till Dawn 2: Texas Blood Money (1999) - Special makeup effects; 2000s.",
+                "snippetAttribution": {
+                    "license": {
+                        "name": "CC-BY-SA",
+                        "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+                    },
+                    "licenseNotice": "Text under CC-BY-SA license"
+                },
+                "dateLastCrawled": "2019-03-02T06:04:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.9",
+                "name": "KNB EFX Group, Inc - Graphic Design - 9300 Eton Ave ...",
+                "url": "https://www.yelp.com/biz/knb-efx-group-inc-chatsworth",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.yelp.com/biz/knb-efx-group-inc-chatsworth",
+                "snippet": "1 review of KNB EFX Group, Inc \"The best special makeup effects company in the world! Over 900 film credits to their 27 years in the film industry as well as emmy awards for the many TV shows they are involved with. Please note the address is\u2026",
+                "dateLastCrawled": "2019-02-27T10:03:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            }
+        ]
+    },
+    "rankingResponse": {
+        "mainline": {
+            "items": [
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 0,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.0"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 1,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.1"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 2,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 3,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.3"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 4,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 5,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 6,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.6"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 7,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.7"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 8,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.8"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 9,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.9"
+                    }
+                }
+            ]
+        }
+    }
+}

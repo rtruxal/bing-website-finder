@@ -1,0 +1,203 @@
+{
+    "_type": "SearchResponse",
+    "queryContext": {
+        "originalQuery": "ThreatWatch"
+    },
+    "webPages": {
+        "webSearchUrl": "https://www.bing.com/search?q=ThreatWatch",
+        "totalEstimatedMatches": 9180,
+        "value": [
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.0",
+                "name": "Threat Watch - StanDeyo.com- Welcome!",
+                "url": "http://www.standeyo.com/Earth_Changes/Threat.Watch.html",
+                "isFamilyFriendly": true,
+                "displayUrl": "www.standeyo.com/Earth_Changes/Threat.Watch.html",
+                "snippet": "Threat Watch The following links (updated Sept. 1, 2016) give you a quick, bottom line look at today's concerns. There are many other sources available, but these give you a comprehensive overview without chasing around the Net.",
+                "dateLastCrawled": "2019-02-28T10:40:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.1",
+                "name": "ThreatWatch",
+                "url": "https://threatwatch.io/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://threatwatch.io",
+                "snippet": "ThreatWatch provides a flexible approach that allows service compositions to be represented as assets to understand the holistic risk while still being able to attribute risk emanating from individual components in real time.",
+                "dateLastCrawled": "2019-02-28T09:47:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2",
+                "name": "threatwatch.binarydefense.com - Threat Watch by Binary Defense",
+                "url": "https://threatwatch.binarydefense.com/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://threatwatch.binarydefense.com",
+                "snippet": "Search an extensive archive of bulletins written by security intelligence specialists and researchers actively monitoring for the day\u2019s most pertinent security events.",
+                "dateLastCrawled": "2019-03-02T15:32:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.3",
+                "name": "Threatwatch - Nextgov",
+                "url": "https://www.nextgov.com/topic/threatwatch/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.nextgov.com/topic/threatwatch",
+                "snippet": "Lebanese Spy Agency Likely Behind Fake Messaging Apps, Researchers Say The nation-state-run campaign being called Dark Caracal has been ongoing, undetected for years, despite not being all that ...",
+                "dateLastCrawled": "2019-03-02T07:46:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4",
+                "name": "ThreatsWatch",
+                "url": "http://threatswatch.org/",
+                "isFamilyFriendly": true,
+                "displayUrl": "threatswatch.org",
+                "snippet": "National Security and Defense are no longer apolitical issues. In reluctantly acknowledging this fact, more thinking and writing on political issues has gradually made its way into the ThreatsWatch space.",
+                "dateLastCrawled": "2019-02-28T19:02:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5",
+                "name": "Releasing ThreatWatch OpenAPI package for python \u2013 pytw",
+                "url": "https://threatwatch.io/releasing-pytw/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://threatwatch.io/releasing-pytw",
+                "snippet": "pytw is an open source initiative from ThreatWatch provides a comprehensive and solid python interface for integrating with ThreatWatch in an seamless manner. pytw provides capabilities to manage and work with \u201ccore objects/entities\u201d in ThreatWatch (like assets, vulnerabilities and impacts).",
+                "dateLastCrawled": "2019-03-01T11:14:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.6",
+                "name": "Threatwatch - Home | Facebook",
+                "url": "https://www.facebook.com/threatw4tch/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.facebook.com/threatw4tch",
+                "snippet": "Threatwatch July 18, 2016 \u00b7 Missy Heath McMurray, \"boss lady\" at PLC Towing in Saint Paul, apparently thinks running protesters over with a motor vehicle is something worth joking about.",
+                "dateLastCrawled": "2019-01-17T15:39:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.7",
+                "name": "ThreatWatch 2.0 | Cyber Intelligence | Security On-Demand",
+                "url": "https://www.securityondemand.com/solutions/advanced-threat-log-analysis-service/threatwatch-2-0/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.securityondemand.com/.../threatwatch-2-0",
+                "snippet": "ThreatWatch\u00ae is the next generation of threat management, combining behavioral analytics, advanced security use cases, threat intelligence and situational awareness.",
+                "dateLastCrawled": "2019-02-18T19:17:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.8",
+                "name": "Which volcanoes are erupting? - List & map of active ...",
+                "url": "https://www.volcanodiscovery.com/erupting_volcanoes.html",
+                "about": [
+                    {
+                        "name": "Volcano"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.volcanodiscovery.com/erupting_volcanoes.html",
+                "snippet": "Maintaining the volcano and earthquake news sections on this website, the free Volcano Webcams tool and interactive map widget is a free-time, both time- and server cost intensive effort. If you find the information useful and would like to support us, and help keep it alive and improve it, please consider making a small donation .",
+                "dateLastCrawled": "2019-03-03T13:47:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.9",
+                "name": "Basic Membership - Threat Watch",
+                "url": "https://threatwatch.binarydefense.com/register/basic-membership/",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://threatwatch.binarydefense.com/register/basic-membership",
+                "snippet": "Register here for the Basic Membership Price: Free First Name: First Name Required Last Name: Last Name Required Primary area of interest:* Primary area of interest is Required Banking and Financial Construction Education Energy and Utilities General Government Healthcare Manufacturing Professional Services Retail Username:* Invalid Username Email:* Invalid Email Password:* Invalid Password ...",
+                "dateLastCrawled": "2019-03-02T23:57:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            }
+        ]
+    },
+    "rankingResponse": {
+        "mainline": {
+            "items": [
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 0,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.0"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 1,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.1"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 2,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 3,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.3"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 4,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 5,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 6,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.6"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 7,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.7"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 8,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.8"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 9,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.9"
+                    }
+                }
+            ]
+        }
+    }
+}

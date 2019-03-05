@@ -98,5 +98,23 @@ def filter_blacklisted_urls(urls, preserve_order=False):
 def email_query_generator(simple_urls):
     for url in simple_urls:
         if not isinstance(url, str) and isnan(url):
-            pass
+            continue
+        elif url == "N/A":
+            continue
         yield {'q' : '+"@{}"'.format(url)}
+
+def extract_emails(text, finder_number=0, return_all=False):
+    EMAIL_ADDR_FINDERS = (
+        r'(\w+[.|\w]\w+(@\w+[.]\w+[.|\w+]\w+))',
+        r'(\w+[.|\w])*@(\w+[.])*\w+',
+        r'\s([\w-].+@\w.+\.\w+)\s+',
+        r'^\W*(\w+-*\w*@\w+\.\w{2,6})\W*',
+        r'\W*(\w+-*\w*@\w+\.\w{2,6})\W*$'
+    )
+    # return_all takes precidence.
+    if return_all:
+        return [re.findall(regex, text) for regex in EMAIL_ADDR_FINDERS]
+    # so it's clear how `finder_number` works:
+    assert finder_number in range(len(EMAIL_ADDR_FINDERS))
+    regex = EMAIL_ADDR_FINDERS[finder_number]
+    return re.findall(regex, text)

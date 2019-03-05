@@ -6,7 +6,7 @@ class SearchResultWeb(object):
     def __init__(self, JSON):
         assert JSON['_type'] == 'SearchResponse', \
             'Hey you can\'t parse that with this.'
-
+        self.query = JSON['queryContext']['originalQuery']
         self.total_estimated_matches = JSON['webPages']['totalEstimatedMatches']
 
         self.names = [i['name'] for i in JSON['webPages']['value']]
