@@ -121,3 +121,4 @@ dmypy.json
 # mine
 bing_website_finder/myconfig.py
 .vscode/
+test/
