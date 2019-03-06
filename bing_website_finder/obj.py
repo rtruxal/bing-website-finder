@@ -123,6 +123,7 @@ class EmailWorker(object):
         self.failed_attempts = 0
         self.mission_complete = False
 
+
     async def _find_company_name(self):
         self.company_name = await find_empty_website(self.shared_cache)
         self.params['q'] = self.company_name
