@@ -3,6 +3,7 @@ lock = asyncio.Lock()
 from math import isnan
 import re
 import sys
+from numpy import nan
 
 url_blacklist = {
         'N/A',
@@ -13,6 +14,9 @@ url_blacklist = {
         'bloomberg.com',
         'gnu.org',
     }
+def ensure_cache_columns(dataframe):
+    pass
+
 
 
 async def find_empty_website(cache_record):
@@ -129,3 +133,15 @@ def extract_emails(text, finder_number=0, return_all=False):
     assert finder_number in range(len(EMAIL_ADDR_FINDERS))
     regex = EMAIL_ADDR_FINDERS[finder_number]
     return re.findall(regex, text)
+
+if __name__ == "__main__":
+    from os import path as p
+    import pandas as pd
+    infile = p.join(p.realpath(p.split(__file__)[0]), 'data', 'example_output2.csv')
+    try:
+        assert p.exists(infile)
+    except AssertionError:
+        print(infile)
+        sys.exit(-1)
+    df = pd.read_csv(infile)
+    print(df.columns)
