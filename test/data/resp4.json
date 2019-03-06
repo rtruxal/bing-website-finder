@@ -1,0 +1,150 @@
+{
+    "_type": "SearchResponse",
+    "queryContext": {
+        "originalQuery": "Timmothy Cruise",
+        "alteredQuery": "timothy cruise",
+        "alterationDisplayQuery": "timothy cruise",
+        "alterationOverrideQuery": "+Timmothy Cruise",
+        "adultIntent": false
+    },
+    "webPages": {
+        "webSearchUrl": "https://www.bing.com/search?q=Timmothy+Cruise",
+        "totalEstimatedMatches": 16600000,
+        "value": [
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2",
+                "name": "Timothy Cruise (J), 58 - Canton, MA | Background Report at ...",
+                "url": "https://www.mylife.com/timothy-cruise/e151428700530",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.mylife.com/timothy-cruise/e151428700530",
+                "snippet": "Timothy Cruise is 58 years old and was born on 05/15/1960. Timothy's Reputation Score is 3.45. Timothy Cruise lives in Canton, MA; previous cities include Sharon MA, Buzzards Bay MA and Brockton MA. Sometimes Timothy goes by various nicknames including Timothy J Cruice, Timothy J Cruise, Timmothy Cruise, Tim Cruise and Timmothy J Cruise.",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4",
+                "name": "Timothy Cruise - BeenVerified",
+                "url": "https://www.beenverified.com/people/timothy-cruise/",
+                "about": [
+                    {
+                        "name": "In The"
+                    },
+                    {
+                        "name": "In The"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.beenverified.com/people/timothy-cruise",
+                "snippet": "BeenVerified > People Search > Timothy Cruise; Timothy Cruise in the US. We found 17 results for Timothy Cruise.Search public records for emails, phone numbers, addresses and more.",
+                "dateLastCrawled": "2019-02-23T05:32:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5",
+                "name": "Tom Cruise - Wikipedia",
+                "url": "https://en.wikipedia.org/wiki/Tom_Cruise",
+                "thumbnailUrl": "https://www.bing.com/th?id=OIP.oY9X3RNcRtK4A_b0tURvsAAAAA&pid=Api",
+                "about": [
+                    {
+                        "name": "Tom Cruise"
+                    },
+                    {
+                        "name": "Tom Cruise"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://en.wikipedia.org/wiki/Tom_Cruise",
+                "snippet": "Thomas Cruise (born Thomas Cruise Mapother IV on July 3, 1962) is an American actor and producer. He started his career at age 19, in the film Endless Love (1981), ...",
+                "dateLastCrawled": "2019-03-01T07:14:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            },
+
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.7",
+                "name": "Timothy Cruise - whitepages.com",
+                "url": "https://www.whitepages.com/name/Timothy-Cruise",
+                "isFamilyFriendly": true,
+                "displayUrl": "https://www.whitepages.com/name/Timothy-Cruise",
+                "snippet": "View phone numbers, addresses, public records, background check reports and possible arrest records for Timothy Cruise. Whitepages people search is the most trusted directory. Sign up to gain access to mobile numbers, public records, and more.",
+                "language": "en",
+                "isNavigational": false
+            },
+            {
+                "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.8",
+                "name": "Timothy Levitch - Wikipedia",
+                "url": "https://en.wikipedia.org/wiki/Timothy_%22Speed%22_Levitch",
+                "about": [
+                    {
+                        "name": "Timothy Levitch"
+                    },
+                    {
+                        "name": "Timothy Levitch"
+                    }
+                ],
+                "isFamilyFriendly": true,
+                "displayUrl": "https://en.wikipedia.org/wiki/Timothy_\"Speed\"_Levitch",
+                "snippet": "Timothy \"Speed\" Levitch (/ ... Levitch's cult was spread beyond NYC when he became the subject of the 1998 documentary The Cruise. In 2000, Levitch was a citizen of the art project Quiet, We Live in Sane. In August 2012, Levitch premiered a new documentary video series on its own Hulu channel.",
+                "snippetAttribution": {
+                    "license": {
+                        "name": "CC-BY-SA",
+                        "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+                    },
+                    "licenseNotice": "Text under CC-BY-SA license"
+                },
+                "dateLastCrawled": "2019-03-02T17:19:00.0000000Z",
+                "language": "en",
+                "isNavigational": false
+            }
+        ]
+    },
+    "rankingResponse": {
+        "mainline": {
+            "items": [
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 0,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.0"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 1,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.1"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 2,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.2"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 3,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.3"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 4,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.4"
+                    }
+                },
+                {
+                    "answerType": "WebPages",
+                    "resultIndex": 5,
+                    "value": {
+                        "id": "https://api.cognitive.microsoft.com/api/v7/#WebPages.5"
+                    }
+                }
+            ]
+        }
+    }
+}

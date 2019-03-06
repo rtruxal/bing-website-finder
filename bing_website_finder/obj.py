@@ -12,10 +12,13 @@ class SearchResultWeb(object):
         self.names = [i['name'] for i in JSON['webPages']['value']]
         self.urls = [j['url'] for j in JSON['webPages']['value']]
         self.snippets = [k['snippet'] for k in JSON['webPages']['value']]
-        self.safe_search = [l['isFamilyFriendly'] for l in JSON['webPages']['value']]
-        self.crawl_dates = [m['dateLastCrawled'] for m in JSON['webPages']['value']]
         self.display_urls = [n['displayUrl'] for n in JSON['webPages']['value']]
-
+        self.safe_search = [l['isFamilyFriendly'] for l in JSON['webPages']['value']]
+        # Occasionally, results won't have crawl dates:
+        try:
+            self.crawl_dates = [m['dateLastCrawled'] for m in JSON['webPages']['value']]
+        except KeyError:
+            self.crawl_dates = [None for i in range(len(self.names))]
         self.increment_next_offset_by = len(self.urls)
 
 
