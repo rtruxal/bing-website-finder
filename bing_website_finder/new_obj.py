@@ -196,31 +196,3 @@ class SearchResultWeb(object):
         self.safe_search = []
         self.display_urls = []
         self.increment_next_offset_by = -1
-
-if __name__ == "__main__":
-    async def testit(wrk):
-        async def call_bing_and_print(worker, times=5):
-            for time in range(times):
-                if worker.mission_complete:
-                    break
-                res = SearchResultWeb(await worker._call_bing())
-                print(res.increment_next_offset_by)
-                worker.update_offset(res)
-                print(res.urls)
-                # print(worker.params)
-        task = asyncio.ensure_future(call_bing_and_print(wrk))
-        await asyncio.gather(task)
-
-    fake_cache = dict()
-    wrk = Worker(fake_cache)
-    wrk.params['q'] = 'pineapple express'
-    loop = asyncio.get_event_loop()
-    try:
-        loop.run_until_complete(testit(wrk))
-    finally:
-        loop.stop()
-        loop.close()
-
-
-
-
