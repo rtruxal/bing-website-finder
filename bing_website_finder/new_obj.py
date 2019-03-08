@@ -7,15 +7,6 @@ from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
 from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website
 
 
-def run_blocker_in_executor(func, *, loop=None):
-    def wraps(*args, **kwargs):
-        if kwargs:
-            print('WARN: You\'ve passed keyword arguments which the executor can\'t handle. They will be omitted.')
-        _loop = loop if loop is not None else asyncio.get_event_loop()
-        yield _loop.run_in_executor(executor=None, func=func, *args)
-    return wraps
-
-
 class Worker(object):
     worker_types = {
         'website',
@@ -38,43 +29,26 @@ class Worker(object):
 
         self.failed_attempts = 0
         self.mission_complete = False
-
-        self.tem = 0
+        # Total estimated matches is garbage.
+        #self.tem = 0
         self.increment_offset_by = 0
         self.last_result = None
         self.offset = 0
         self.result_hashes = set()
 
-
-    # @run_blocker_in_executor
-    def _calc_next_offset(self, new_result, subtype='urls'):
-        assert subtype not in ('safe_search', 'total_estimated_matches', 'increment_next_offset_by', 'crawl_dates'), \
-            "this result object attribute either won't return an iterator or won't indicate duplicate results."
-        if new_result.increment_next_offset_by < 0:
-            self.increment_offset_by = -1
-            print('TEST: SEARCH RESULT FAILURE')
-        #TODO: Figure out a better way to signal the end of pagination.
-        # Bing is *GOING* to hand back duplicates. No idea how to tell when no more results.
-        if self.increment_offset_by >= 0 and self.last_result is not None:
-            new_reses = getattr(new_result, subtype)
-            for res in new_reses:
-                if res in getattr(self.last_result, subtype):
-                    print('TEST: THERES A DUP LINK')
-                    self.increment_offset_by = -1
-                    break
-        # END TODO
-        if self.increment_offset_by >= 0:
-            print('TEST: NO ISSUES')
-            self.increment_offset_by = len(getattr(new_result, subtype))
-
-    def update_offset(self, new_result):
-        self._calc_next_offset(new_result)
-        if self.increment_offset_by < 0:
+    def update_offset(self, new_result, subtype='urls'):
+        new_items = getattr(new_result, subtype)
+        before_adding = len(self.result_hashes)
+        self.result_hashes.update((hash(i) for i in new_items))
+        after_adding = len(self.result_hashes)
+        if after_adding == before_adding:
             self.mission_complete = True
+            self.increment_offset_by = -1
         else:
+            self.increment_offset_by = len(new_items)
             self.offset += self.increment_offset_by
-            self.params['offset'] = str(self.offset)
-        self.last_result = new_result
+            self.params['offset'] = self.offset
+
 
     def _are_we_done_yet(self, inplace=False):
         if inplace is True:
@@ -128,6 +102,11 @@ class Worker(object):
         }
         return errors[resp.status]()
 
+class EmailWorker(Worker):
+    def __init__(self, shared_cache, api_key=None):
+        super(EmailWorker, self).__init__(shared_cache, api_key)
+        self.worker_type = 'email'
+        self.emails = None
 
 class WebsiteWorker(Worker):
     def __init__(self, shared_cache, api_key=None):
