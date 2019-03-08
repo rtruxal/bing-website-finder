@@ -57,7 +57,7 @@ def df_to_company_db(df, verbose=False):
     _df.columns = map(lambda y: y.replace('Website', 'website'), _df.columns)
     _df.to_sql('companies', con, index=False, if_exists='append')
     if verbose:
-        print('INFO: dataframe successfully inserted into companies')
+        print('INFO: dataframe successfully inserted into companies.')
     del _df
 
 
