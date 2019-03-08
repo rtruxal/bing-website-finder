@@ -1,9 +1,20 @@
+import asyncio
 import aiohttp
 import sys
 from time import sleep
 
 from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
 from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website
+
+
+def run_blocker_in_executor(func, *, loop=None):
+    def wraps(*args, **kwargs):
+        if kwargs:
+            print('WARN: You\'ve passed keyword arguments which the executor can\'t handle. They will be omitted.')
+        _loop = loop if loop is not None else asyncio.get_event_loop()
+        yield _loop.run_in_executor(executor=None, func=func, *args)
+    return wraps
+
 
 class Worker(object):
     worker_types = {
@@ -12,6 +23,10 @@ class Worker(object):
     }
     def __init__(self, shared_cache, api_key=None):
         self.shared_cache = shared_cache
+        try:
+            self.loop = asyncio.get_running_loop()
+        except:
+            self.loop = asyncio.get_event_loop()
         self.company_name = None
         self.worker_type = None
 
@@ -24,6 +39,42 @@ class Worker(object):
         self.failed_attempts = 0
         self.mission_complete = False
 
+        self.tem = 0
+        self.increment_offset_by = 0
+        self.last_result = None
+        self.offset = 0
+        self.result_hashes = set()
+
+
+    # @run_blocker_in_executor
+    def _calc_next_offset(self, new_result, subtype='urls'):
+        assert subtype not in ('safe_search', 'total_estimated_matches', 'increment_next_offset_by', 'crawl_dates'), \
+            "this result object attribute either won't return an iterator or won't indicate duplicate results."
+        if new_result.increment_next_offset_by < 0:
+            self.increment_offset_by = -1
+            print('TEST: SEARCH RESULT FAILURE')
+        #TODO: Figure out a better way to signal the end of pagination.
+        # Bing is *GOING* to hand back duplicates. No idea how to tell when no more results.
+        if self.increment_offset_by >= 0 and self.last_result is not None:
+            new_reses = getattr(new_result, subtype)
+            for res in new_reses:
+                if res in getattr(self.last_result, subtype):
+                    print('TEST: THERES A DUP LINK')
+                    self.increment_offset_by = -1
+                    break
+        # END TODO
+        if self.increment_offset_by >= 0:
+            print('TEST: NO ISSUES')
+            self.increment_offset_by = len(getattr(new_result, subtype))
+
+    def update_offset(self, new_result):
+        self._calc_next_offset(new_result)
+        if self.increment_offset_by < 0:
+            self.mission_complete = True
+        else:
+            self.offset += self.increment_offset_by
+            self.params['offset'] = str(self.offset)
+        self.last_result = new_result
 
     def _are_we_done_yet(self, inplace=False):
         if inplace is True:
@@ -103,6 +154,7 @@ class WebsiteWorker(Worker):
                 # Maybe this should be its own function
                 try:
                     self.website = SearchResultWeb(data).urls[0]
+
                 except KeyError:
                     print('WARN: Results not obtained from Bing for {}.'.format(self.company_name))
                     self.website = "N/A"
@@ -134,19 +186,62 @@ class WebsiteWorker(Worker):
 
 class SearchResultWeb(object):
     def __init__(self, JSON):
-        assert JSON['_type'] == 'SearchResponse', \
+        assert '_type' in JSON.keys() and JSON['_type'] == 'SearchResponse', \
             'Hey you can\'t parse that with this.'
+        if 'webPages' in JSON.keys():
+            self._successful_init(JSON)
+        else:
+            self._unsuccessful_init()
 
+
+    def _successful_init(self, JSON):
         self.total_estimated_matches = JSON['webPages']['totalEstimatedMatches']
 
         self.names = [i['name'] for i in JSON['webPages']['value']]
         self.urls = [j['url'] for j in JSON['webPages']['value']]
         self.snippets = [k['snippet'] for k in JSON['webPages']['value']]
         self.safe_search = [l['isFamilyFriendly'] for l in JSON['webPages']['value']]
-        self.crawl_dates = [m['dateLastCrawled'] for m in JSON['webPages']['value']]
+
         self.display_urls = [n['displayUrl'] for n in JSON['webPages']['value']]
 
-        self.increment_next_offset_by = len(self.urls)
+        self.increment_next_offset_by = len(self.names)
+        try:
+            self.crawl_dates = [m['dateLastCrawled'] for m in JSON['webPages']['value']]
+        except KeyError:
+            self.crawl_dates = [None for i in self.names]
+    def _unsuccessful_init(self):
+        self.total_estimated_matches = 0
+        self.names = []
+        self.urls = []
+        self.snippets = []
+        self.safe_search = []
+        self.display_urls = []
+        self.increment_next_offset_by = -1
+
+if __name__ == "__main__":
+    async def testit(wrk):
+        async def call_bing_and_print(worker, times=5):
+            for time in range(times):
+                if worker.mission_complete:
+                    break
+                res = SearchResultWeb(await worker._call_bing())
+                print(res.increment_next_offset_by)
+                worker.update_offset(res)
+                print(res.urls)
+                # print(worker.params)
+        task = asyncio.ensure_future(call_bing_and_print(wrk))
+        await asyncio.gather(task)
+
+    fake_cache = dict()
+    wrk = Worker(fake_cache)
+    wrk.params['q'] = 'pineapple express'
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(testit(wrk))
+    finally:
+        loop.stop()
+        loop.close()
+
 
 
 
