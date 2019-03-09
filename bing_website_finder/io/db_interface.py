@@ -1,11 +1,11 @@
 import sqlite3
-from bing_website_finder import PKG_ROOT
 from os import path
 import csv
 import pandas as pd
+from bing_website_finder import PKG_ROOT
+
 
 DB_LOC = path.realpath(path.join(PKG_ROOT, 'data', 'transient.sqlite'))
-
 def get_db():
     db = sqlite3.connect(
         DB_LOC,
@@ -19,6 +19,12 @@ def _init_db():
     with open('schema.sql', 'r') as schemafile:
         db.executescript(schemafile.read())
     print('initialized the db.')
+
+def read_from_db(statement):
+    con = get_db()
+    rows = con.execute(statement).fetchall()
+    return rows
+
 
 def company_db_to_csv(outfilepth, verbose=False):
     con = get_db()
@@ -79,7 +85,6 @@ if __name__ == "__main__":
             'SELECT * FROM companies;'
         ).fetchall()
         return [(j, k, l) for j,k,l in [i for i in foo]]
-
     def test_db_create_and_modify():
         db = get_db()
         db.execute(
@@ -90,14 +95,12 @@ if __name__ == "__main__":
         db.commit()
         vals = check_company_db()
         print(vals)
-
     def test_convert_csv_to_db():
         infilepth = r'C:\Users\v-rotrux\code\public_repos\mine\bing-website-finder\bing_website_finder\data\example_output2.csv'
         csv_to_company_db(infilepth)
         vals = check_company_db()
         print(vals)
     def test_convert_df_to_db():
-        import pandas as pd
         df = pd.read_csv(r'C:\Users\v-rotrux\code\public_repos\mine\bing-website-finder\bing_website_finder\data\example_output2.csv')
         df_to_company_db(df)
         # print(df.columns)
@@ -111,7 +114,8 @@ if __name__ == "__main__":
         outfile = r'C:\Users\v-rotrux\code\public_repos\mine\bing-website-finder\bing_website_finder\data\example_output3.csv'
         company_db_to_csv(outfile, verbose=True)
 
-    # _init_db()
+    ## _init_db()
+    # check_company_db()
     # test_db_create_and_modify()
     # test_convert_csv_to_db()
     # test_convert_df_to_db()

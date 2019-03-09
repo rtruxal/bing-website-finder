@@ -108,6 +108,11 @@ class EmailWorker(Worker):
         self.worker_type = 'email'
         self.emails = None
 
+    async def perform_mission(self, verbose=False):
+
+        pass
+
+
 class WebsiteWorker(Worker):
     def __init__(self, shared_cache, api_key=None):
         super(WebsiteWorker, self).__init__(shared_cache, api_key)
@@ -133,7 +138,6 @@ class WebsiteWorker(Worker):
                 # Maybe this should be its own function
                 try:
                     self.website = SearchResultWeb(data).urls[0]
-
                 except KeyError:
                     print('WARN: Results not obtained from Bing for {}.'.format(self.company_name))
                     self.website = "N/A"

@@ -1,11 +1,11 @@
 import sys
 from os import path
-sys.path[0] = path.realpath('../')
 import requests as r
+sys.path[0] = path.realpath('../')
 
 from bing_website_finder.myconfig import MY_ENDPOINT, MY_HEADERS, MY_PARAMS
 from bing_website_finder.util import extract_emails, email_query_generator, filter_blacklisted_urls
-
+from bing_website_finder.io.db_interface import read_from_db
 
 class CallAPI():
     
@@ -76,12 +76,19 @@ class CallAPIWeb(CallAPI):
             _items = self.search_filter
         return (i['url'] for i in JSON[_items]['value'])
 
+def check_db():
+    sql = "SELECT * FROM companies;"
+    companies = read_from_db(sql)
+    for i in companies:
+        [print(j) for j in i]
+        print()
+
+
 if __name__ == "__main__":
-    adapter = CallAPIWeb('tom cruise')
-    print(adapter._safe_to_call)
-    res = adapter.call_bing()
-    print(adapter._safe_to_call)
-
-
+    # adapter = CallAPIWeb('tom cruise')
+    # print(adapter._safe_to_call)
+    # res = adapter.call_bing()
+    # print(adapter._safe_to_call)
     # print(res)
     # print(sys.path)
+    check_db()

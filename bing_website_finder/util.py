@@ -1,9 +1,9 @@
-import asyncio
-lock = asyncio.Lock()
 from math import isnan
+# from numpy import nan
 import re
 import sys
-from numpy import nan
+import asyncio
+lock = asyncio.Lock()
 
 url_blacklist = {
         'N/A',
@@ -37,8 +37,17 @@ async def find_empty_website(cache_record):
 #TODO: this.
 async def find_empty_emails(cache_record):
     async with lock:
-        pass
-
+        try:
+            for company, domain in zip(cache_record['Company Name'], cache_record['Domain']):
+                if not isinstance(domain, str) and isnan(domain):
+                    cache_record.loc[cache_record['Company Name'] == company, 'Website'] = "In Progress"
+                    return company
+                else:
+                    continue
+            return 'FINISHED'
+        except KeyError as err:
+            print('PLEASE CHECK THAT YOUR INPUT DF HAS THE CORRECT COLUMN NAMES.')
+            sys.exit(-1)
 
 async def ok_to_set_website(cache_record, worker):
     async with lock:
