@@ -47,6 +47,7 @@ setup(name="bwf",
       python_requires='>=3.7.0',
       install_requires= [
           'aiohttp',
+          'aiojobs',
           'pandas'
       ],
     )

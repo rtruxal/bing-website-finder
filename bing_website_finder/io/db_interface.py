@@ -61,20 +61,41 @@ def df_to_company_db(df, verbose=False):
     _df = df.copy()
     _df.columns = map(lambda x: x.replace('Company Name', 'company_name'), _df.columns)
     _df.columns = map(lambda y: y.replace('Website', 'website'), _df.columns)
+    _df.columns = map(lambda z: z.replace('Domain', 'derived_suffix'), _df.columns)
     _df.to_sql('companies', con, index=False, if_exists='append')
     if verbose:
         print('INFO: dataframe successfully inserted into companies.')
     del _df
 
+def df_to_email_db(df, verbose=False):
+    con = get_db()
+    df.to_sql('emails', con, index=False, if_exists='append')
+    if verbose:
+        print('INFO: dataframe successfully inserted into emails.')
 
-def company_db_to_df(tablename):
+def get_db_colnames(tablename):
+    con = get_db()
+    cur = con.execute('SELECT * FROM {};'.format(tablename))
+    row = cur.fetchone()
+    return list(row.keys())
+
+def company_db_to_df():
     con = get_db()
     df = pd.read_sql_query(
-        "SELECT * FROM {};".format(tablename),
+        "SELECT * FROM companies;",
         con
     )
     df.columns = map(lambda x: x.replace('company_name', 'Company Name'), df.columns)
     df.columns = map(lambda y: y.replace('website', 'Website'), df.columns)
+    df.columns = map(lambda z: z.replace('derived_suffix', 'Domain'), df.columns)
+    return df
+
+def email_db_to_df():
+    con = get_db()
+    df = pd.read_sql_query(
+        'SELECT * FROM emails;',
+        con
+    )
     return df
 
 

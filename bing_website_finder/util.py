@@ -77,7 +77,7 @@ async def set_company_website(cache_record, worker):
 ##TODO: FINISH THESE
 async def find_empty_email(cache_record):
     async with lock:
-        for company, emails in zip(cache_record['Company Name'], cache_record['Emails']):
+        for company, emails in zip(cache_record['Company Name'], cache_record['Domain']):
             if not isinstance(emails, str) and isnan(emails):
                 cache_record.loc[cache_record['Company Name'] == company,'Emails'] = "In Progress"
                 return company

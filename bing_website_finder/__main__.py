@@ -24,6 +24,8 @@ def main(args=None):
         default_output_file = os.path.join(__file__, 'data', 'bing_website_finder_output.csv')
         parser = argparse.ArgumentParser()
         parser.add_argument('-v', '--verbose', action="store_true", help="Increase output verbosity.")
+        parser.add_argument('-o', '--operation', nargs="?", type=str, default="all", help="Select 'all' or one of the 3 operations: [website|email|profile]")
+        parser.add_argument('-H', '--hard', action="store_true", help="Overwrite data in databases. This is the default behavior unless you use the -o arg.")
         parser.add_argument('-k', '--api-key', nargs="?", type=str, help="Not optional unless you've changed config.py")
         parser.add_argument('-w', '--num-workers', type=int, default=5, help="Specify the quantity of async workers. Default is 5. Higher numbers increase speed to an extent, but also increase memory usage.")
         parser.add_argument('inpth', nargs=1, type=str, help="Specify an input csv or excel file.")
@@ -38,8 +40,20 @@ def main(args=None):
         infilepth = os.path.realpath(*arrgs.inpth)
         outfilepth = os.path.realpath(arrgs.outpth)
 
+        operation = arrgs.operation
+        resume = not arrgs.hard
+
         num_workers = arrgs.num_workers
-        init(infilepth, outfilepth, verbose=verbose_flag, api_key=api_key, num_workers=num_workers)
+
+        init(
+            infilepth,
+            outfilepth,
+            verbose=verbose_flag,
+            api_key=api_key,
+            num_workers=num_workers,
+            operation=operation,
+            resume=resume
+        )
     else:
         sys.exit(-1)
 

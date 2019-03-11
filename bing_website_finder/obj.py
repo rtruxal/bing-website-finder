@@ -103,13 +103,13 @@ class Worker(object):
         return errors[resp.status]()
 
 class EmailWorker(Worker):
-    def __init__(self, shared_cache, api_key=None):
-        super(EmailWorker, self).__init__(shared_cache, api_key)
+    def __init__(self, website_cache, email_cache, api_key=None):
+        super(EmailWorker, self).__init__(website_cache, api_key)
+        self.email_cache = email_cache
         self.worker_type = 'email'
         self.emails = None
 
     async def perform_mission(self, verbose=False):
-
         pass
 
 
