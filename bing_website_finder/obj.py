@@ -133,7 +133,7 @@ class EmailWorker(Worker):
                     #TODO: placeholder for pagination loop
                     #todo: use self.update_offset() declared above.
                     data = await self._call_bing()
-                    # hacky:
+                    #todo: endtodo
                     try:
                         self.resp_snips = SearchResultWeb(data).snippets
                         if len(self.resp_snips) == 0:
@@ -182,7 +182,7 @@ class WebsiteWorker(Worker):
         self.worker_type = 'website'
         self.website = None
 
-    async def perform_mission(self, verbose=False):
+    async def perform_mission(self, verbose=False, testing=False):
         while not self.mission_complete:
             if not self.company_name:
                 await self._find_company_name()
