@@ -44,7 +44,7 @@ async def add_domain_processing_column(cache_record, verbose=False) -> None:
         else:
             pass
 
-#TODO: this.
+
 async def find_empty_domain(cache_record) -> tuple:
     async with website_cache_lock:
         try:
@@ -59,6 +59,15 @@ async def find_empty_domain(cache_record) -> tuple:
             print('PLEASE CHECK THAT YOUR INPUT DF HAS THE CORRECT COLUMN NAMES.')
             sys.exit(-1)
 
+async def set_website_cache_complete(cache_record, worker, verbose=False) -> None:
+    async with website_cache_lock:
+        rec = cache_record[cache_record['Company Name'] == worker.company_name]['Domain Selected'].iloc[0]
+        if rec == "In Progress":
+            cache_record.loc[cache_record['Company Name'] == worker.company_name, 'Domain Selected'] = "DONE"
+            if verbose:
+                print('INFO: Completed email lookup for {}'.format(worker.company_name))
+        else:
+            print('Something has gone horribly wrong. Check email output for {}'.format(worker.company_name))
 
 
 async def ok_to_set_website(cache_record, worker) -> bool:
@@ -134,7 +143,7 @@ def filter_blacklisted_urls(urls, preserve_order=False) -> tuple:
     else:
         return tuple(_filter_blacklisted_urls_in_order(urls))
 
-def email_query_generator(simple_urls) -> Generator[dict]:
+def email_query_generator(simple_urls) -> Generator:
     for url in simple_urls:
         if not isinstance(url, str) and isnan(url):
             continue
@@ -145,7 +154,20 @@ def email_query_generator(simple_urls) -> Generator[dict]:
 def create_email_query(simple_url) -> str:
     return '+"@{}"'.format(simple_url)
 
+#todo: finish the rest of these.
+def adapter_0(findall_result):
+    return [i[0] for i in findall_result]
+def adapter_1(findall_result):
+    return findall_result
+def adapter_2(findall_result):
+    return findall_result
+def adapter_3(findall_result):
+    return findall_result
+def adapter_4(findall_result):
+    return findall_result
+
 def extract_emails(text, finder_number=0, return_all=False) -> list or str:
+    adapters = (adapter_0, adapter_1, adapter_2, adapter_3, adapter_4)
     EMAIL_ADDR_FINDERS = (
         r'(\w+[.|\w]\w+(@\w+[.]\w+[.|\w+]\w+))',
         r'(\w+[.|\w])*@(\w+[.])*\w+',
@@ -159,7 +181,8 @@ def extract_emails(text, finder_number=0, return_all=False) -> list or str:
     # so it's clear how `finder_number` works:
     assert finder_number in range(len(EMAIL_ADDR_FINDERS))
     regex = EMAIL_ADDR_FINDERS[finder_number]
-    return re.findall(regex, text)
+    # Note that everything in `adapters` must be callable.
+    return adapters[finder_number](re.findall(regex, text))
 
 if __name__ == "__main__":
     from os import path as p

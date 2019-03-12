@@ -4,7 +4,7 @@ import sys
 from time import sleep
 
 from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
-from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails
+from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails, set_website_cache_complete
 
 
 
@@ -120,7 +120,7 @@ class EmailWorker(Worker):
 
         self.domain_name = None
 
-    async def perform_mission(self, verbose=False):
+    async def perform_mission(self, verbose=False, testing=False):
         while not self.mission_complete:
             if not self.company_name:
                 await self._find_company_name()
@@ -140,19 +140,41 @@ class EmailWorker(Worker):
                             raise KeyError()
                     except KeyError:
                         print('WARN: Results not obtained from Bing for {}.'.format(self.company_name))
+                    if len(self.resp_snips) > 0:
+                        await self.iter_find_emails(verbose=verbose, testing=testing)
+                        await self._try_set_website_cache_complete(verbose=verbose)
+                    else:
+                        print('WARN: worker failed at obtaining snips.')
 
+    async def _try_set_website_cache_complete(self, verbose=False):
+        try:
+            await set_website_cache_complete(self.shared_cache, self, verbose=verbose)
+        finally:
+            self.searches_performed = 0
+            self.resp_snips = []
+            self.unique_emails = set()
+            self.company_name = None
+            self.domain_name = None
 
     async def _find_company_name(self):
         self.company_name, self.domain_name = await find_empty_domain(self.shared_cache)
         self.params['q'] = create_email_query(self.domain_name)
 
-    def paginate(self, break_on_dups=True):
-        pass
 
-    async def iter_find_emails(self, finder_number=0, return_all=False, verbose=False):
-        pass
+    async def iter_find_emails(self, verbose=False, testing=False):
+        for snip in self.resp_snips:
+            if testing:
+                await asyncio.sleep(0)
+                self.unique_emails.update(extract_emails(snip))
+            else:
+                for finder in range(5):
+                    await asyncio.sleep(0)
+                    self.unique_emails.update(extract_emails(snip, finder))
 
-
+        if verbose and len(self.unique_emails) > 0:
+            print('INFO: emails for {} obtained'.format(self.company_name))
+        elif verbose:
+            print('INFO: no emails for {} obtained'.format(self.company_name))
 
 class WebsiteWorker(Worker):
     def __init__(self, shared_cache, api_key=None):
