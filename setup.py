@@ -4,7 +4,7 @@ with open('README.md', 'r') as infile:
     long_descr = infile.read()
 
 setup(name="bwf",
-      version='0.0.1',
+      version='0.0.2',
 
       description='Bing Website Finder (bwf) adds websites to a list of company names from the commandline.',
       long_description=long_descr,
