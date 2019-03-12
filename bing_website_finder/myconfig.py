@@ -25,7 +25,7 @@ MY_PARAMS = {
     "mkt" : "en-US",
     "offset" : "0",
     "responseFilter" : "Webpages",
-    "count" : "10"
+    "count" : "50"
   }
 
 

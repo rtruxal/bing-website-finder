@@ -47,7 +47,8 @@ def init_email_workers(num_workers, website_cache, email_cache, api_key):
     return (EmailWorker(website_cache, email_cache, api_key) for i in range(num_workers))
 
 
-
+##################################################################################
+# Really clumsy initialization functions until I can make a working job-manager.
 def _init_all(infilepth, outfilepth, verbose, api_key, num_workers):
     assert os.path.exists(infilepth), "Please check the infile path you've specified."
     cache = pd.read_csv(infilepth)

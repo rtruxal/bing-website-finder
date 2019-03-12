@@ -9,6 +9,7 @@ from bing_website_finder.loop_control import init
 from bing_website_finder.myconfig import DEFAULT_SEARCH_API_V7_KEY as default_key
 # For production
 #from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
+SUPPORTED_OPERATIONS = {'all', 'emails', 'websites'}
 
 def api_key_checks(cmdline_arg, default_key, verbose):
     if not cmdline_arg:
@@ -18,6 +19,13 @@ def api_key_checks(cmdline_arg, default_key, verbose):
             sys.exit(-1)
         if verbose:
             print('WARN: You have not provided an API key via the cmdline. Ensure config.py contains a working key, or bwf will fail silently.')
+
+def cli_arg_checks(parsed_arguments):
+    """Raises an error if inconsistencies found. Otherwise, nothing happens."""
+    assert parsed_arguments.operation in SUPPORTED_OPERATIONS
+    if parsed_arguments.hard and parsed_arguments.operation == 'all':
+        raise argparse.ArgumentError('-H can only be used in conjunction with -o.')
+    #TODO: flesh out checks & CLI entrypoint structure generally
 
 def main(args=None):
     if not args:
@@ -32,6 +40,7 @@ def main(args=None):
         parser.add_argument('outpth', default=default_output_file, type=str, help="Specify an output path.")
 
         arrgs = parser.parse_args()
+        cli_arg_checks(arrgs)
 
         api_key = arrgs.api_key
         verbose_flag = arrgs.verbose
