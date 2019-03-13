@@ -32,9 +32,10 @@ setup(name="bwf",
       packages=find_packages(),
 
       include_package_data=True,
-      package_dir={'data' : 'bing_website_finder/data'},
-      package_data={'data' : ['data/*.csv']},
-
+      package_dir={'data' : 'bing_website_finder/data',
+                   },
+      package_data={'data' : ['data/*.csv', 'data/*.sql']},
+      # data_files=[('schema', ['io/schema.sql'])],
       entry_points={
         'console_scripts' : [
             'bwf = bing_website_finder.__main__:main',

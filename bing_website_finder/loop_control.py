@@ -7,7 +7,10 @@ assert list(sys.version_info) >= [3, 7], \
     f"This program requires asyncio functionality introduced in Python 3.7.\nYou are currently using Python {sys.version_info.major}.{sys.version_info.minor}"
 
 from bing_website_finder.obj import WebsiteWorker, EmailWorker
-from bing_website_finder.io.db_interface import df_to_company_db, email_db_to_df, company_db_to_df, df_to_email_db
+from bing_website_finder.io.db_interface import df_to_company_db, email_db_to_df, company_db_to_df, df_to_email_db, get_db
+
+
+
 
 
 

@@ -9,6 +9,8 @@ TESTING = True
 
 
 from bing_website_finder.loop_control import init
+from bing_website_finder.io.db_interface import db_existance_checks
+
 # For testing
 from bing_website_finder.myconfig import DEFAULT_SEARCH_API_V7_KEY as default_key
 # For production
@@ -33,8 +35,10 @@ def cli_arg_checks(parsed_arguments):
 
 def main(args=None):
     if not args:
+        db_existance_checks()
         default_output_file = os.path.join(__file__, 'data', 'bing_website_finder_output.csv')
         parser = argparse.ArgumentParser()
+
         parser.add_argument('-v', '--verbose', action="store_true", help="Increase output verbosity.")
         parser.add_argument('-o', '--operation', nargs="?", type=str, default="all", help="Select 'all' or one of the 3 operations: [website|email|profile]")
         parser.add_argument('-H', '--hard', action="store_true", help="Overwrite data in databases. This is the default behavior unless you use the -o arg.")

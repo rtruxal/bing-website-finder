@@ -16,7 +16,8 @@ def get_db():
 
 def _init_db():
     db = get_db()
-    with open('schema.sql', 'r') as schemafile:
+    schemapth = path.join(PKG_ROOT, 'data', 'schema.sql')
+    with open(schemapth, 'r') as schemafile:
         db.executescript(schemafile.read())
     print('initialized the db.')
 
@@ -81,10 +82,17 @@ def get_db_colnames(tablename):
 
 def company_db_to_df():
     con = get_db()
-    df = pd.read_sql_query(
-        "SELECT * FROM companies;",
-        con
-    )
+    try:
+        df = pd.read_sql_query(
+            "SELECT * FROM companies;",
+            con
+        )
+    except:
+        _init_db()
+        df = pd.read_sql_query(
+            "SELECT * FROM companies;",
+            con
+        )
     df.columns = map(lambda x: x.replace('company_name', 'Company Name'), df.columns)
     df.columns = map(lambda y: y.replace('website', 'Website'), df.columns)
     df.columns = map(lambda z: z.replace('derived_suffix', 'Domain'), df.columns)
@@ -97,6 +105,15 @@ def email_db_to_df():
         con
     )
     return df
+
+
+def db_existance_checks():
+    statement = "SELECT name FROM sqlite_master WHERE type='table' AND name='companies';"
+    con = get_db()
+    try:
+        con.execute(statement)
+    except:
+        _init_db()
 
 
 if __name__ == "__main__":
