@@ -1,3 +1,4 @@
 include README.md
 include LICENSE
 include bing_website_finder/data/*.csv
+include bing_website_finder/data/schema.sql

@@ -32,9 +32,11 @@ setup(name="bwf",
       packages=find_packages(),
 
       include_package_data=True,
-      package_dir={'data' : 'bing_website_finder/data',
-                   },
-      package_data={'data' : ['data/*.csv', 'data/*.sql']},
+      # package_dir={
+      #    'bing_website_finder' : 'bing_website_finder',
+      #    'io' : 'bing_website_finder/io',
+      #              },
+      package_data={'data' : ['data/*.sql', 'data/*.csv']},
       # data_files=[('schema', ['io/schema.sql'])],
       entry_points={
         'console_scripts' : [
@@ -48,7 +50,6 @@ setup(name="bwf",
       python_requires='>=3.7.0',
       install_requires= [
           'aiohttp',
-          'aiojobs',
           'pandas'
       ],
     )

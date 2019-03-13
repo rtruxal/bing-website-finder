@@ -32,6 +32,7 @@ async def find_empty_website(cache_record) -> str:
                     continue
             return 'FINISHED'
         except KeyError as err:
+            print(err)
             print('PLEASE CHECK THAT YOUR INPUT CSV HAS THE CORRECT COLUMN NAMES.')
             sys.exit(-1)
 
@@ -56,6 +57,7 @@ async def find_empty_domain(cache_record) -> tuple:
                 continue
             return 'FINISHED', 'FINISHED'
         except KeyError as err:
+            print(err)
             print('PLEASE CHECK THAT YOUR INPUT DF HAS THE CORRECT COLUMN NAMES.')
             sys.exit(-1)
 
@@ -97,11 +99,14 @@ async def set_company_website(cache_record, worker, verbose=False) -> None:
         else:
             print('{}\'s website info has already been populated or wasn\'t obtained correctly.'.format(worker.company_name))
 
+#todo: this is a big fucking problem. There is no way to append a df in place, and we can't
 async def set_company_emails(email_cache_record, worker, verbose=False) -> None:
     assert worker.domain_name
-    add_these = ([i, worker.company_name] for i in worker.unique_emails)
+    add_these = [[i, worker.company_name] for i in worker.unique_emails]
+    begin, end = email_cache_record.shape[0], email_cache_record.shape[0] + len(add_these[0])
     async with email_cache_lock:
-        email_cache_record.append(add_these, columns=['email', 'company_name'])
+        for indx, rec in zip(range(begin, end), add_these):
+            email_cache_record.loc[indx] = [rec[0], rec[1], None, None]
         if verbose:
             print('INFO: successfully saved emails for {}'.format(worker.company_name))
 

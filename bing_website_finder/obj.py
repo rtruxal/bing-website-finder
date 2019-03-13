@@ -4,7 +4,7 @@ import sys
 from time import sleep
 
 from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
-from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails, set_website_cache_complete
+from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails, set_website_cache_complete, set_company_emails
 
 
 
@@ -60,7 +60,9 @@ class Worker(object):
         else:
             return True if self.company_name == "FINISHED" else False
 
-    async def _call_bing(self):
+    async def _call_bing(self, verbose=False):
+        if verbose:
+            print('INFO: calling the API with q={}'.format(self.params['q']))
         async with aiohttp.ClientSession() as sesh:
             async with sesh.get(
                     self.search_url,
@@ -123,16 +125,17 @@ class EmailWorker(Worker):
     async def perform_mission(self, verbose=False, testing=False):
         while not self.mission_complete:
             if not self.company_name:
-                await self._find_company_name()
+                await self._find_company_name(verbose=verbose)
                 if self._are_we_done_yet():
                     if verbose:
                         print('INFO: EmailWorker finished. Shutting down.')
                         break
+                else:
                     if verbose:
-                        print('INFO: Obtained domain.')
+                        print('INFO: Worker got False from ._are_we_done_yet()')
                     #TODO: placeholder for pagination loop
                     #todo: use self.update_offset() declared above.
-                    data = await self._call_bing()
+                    data = await self._call_bing(verbose=verbose)
                     #todo: endtodo
                     try:
                         self.resp_snips = SearchResultWeb(data).snippets
@@ -140,28 +143,45 @@ class EmailWorker(Worker):
                             raise KeyError()
                     except KeyError:
                         print('WARN: Results not obtained from Bing for {}.'.format(self.company_name))
+                    except AssertionError:
+                        print('WARN: Bing returned JSON for {} but it is incomplete or malformed. Bypassing.'.format(self.params['q']))
+                        if verbose:
+                            print('INFO: JSON dump from bing - ')
+                            print(data)
+                        self.reset()
+                        continue
                     if len(self.resp_snips) > 0:
                         await self.iter_find_emails(verbose=verbose, testing=testing)
-                        await self._try_set_website_cache_complete(verbose=verbose)
+                        await self._try_set_cache_data(verbose=verbose)
                     else:
                         print('WARN: worker failed at obtaining snips.')
 
-    async def _try_set_website_cache_complete(self, verbose=False):
+    def reset(self):
+        self.searches_performed = 0
+        self.resp_snips = []
+        self.unique_emails = set()
+        self.company_name = None
+        self.domain_name = None
+
+    async def _try_set_cache_data(self, verbose=False):
         try:
+            await set_company_emails(self.email_cache, self, verbose=verbose)
             await set_website_cache_complete(self.shared_cache, self, verbose=verbose)
         finally:
-            self.searches_performed = 0
-            self.resp_snips = []
-            self.unique_emails = set()
-            self.company_name = None
-            self.domain_name = None
+            self.reset()
 
-    async def _find_company_name(self):
+    async def _find_company_name(self, verbose=False):
+        if verbose:
+            print('INFO: email_worker finding company name from cache.')
         self.company_name, self.domain_name = await find_empty_domain(self.shared_cache)
         self.params['q'] = create_email_query(self.domain_name)
+        if verbose:
+            print('INFO: Domain {} selected.'.format(self.domain_name))
 
 
     async def iter_find_emails(self, verbose=False, testing=False):
+        if verbose:
+            print('INFO: email_worker.iter_find_emails() triggered.')
         for snip in self.resp_snips:
             if testing:
                 await asyncio.sleep(0)

@@ -64,11 +64,17 @@ def _init_emails(infilepth, outfilepth, verbose, api_key, num_workers, resume=Fa
     else:
         website_cache = pd.read_csv(infilepth)
     email_cache = init_shared_email_cache(use_stored=resume)
+    if verbose:
+        print('INFO: Datasources initialized')
     email_workers = init_email_workers(num_workers, website_cache, email_cache, api_key)
     loop = asyncio.get_event_loop()
     try:
+        if verbose:
+            print('INFO: Starting async jobs.')
         loop.run_until_complete(_run_job(email_workers, verbose, testing, loop=loop))
     finally:
+        if verbose:
+            print('INFO: Ending async jobs.')
         df_to_email_db(email_cache)
         email_cache.to_csv(outfilepth, index=False)
 
