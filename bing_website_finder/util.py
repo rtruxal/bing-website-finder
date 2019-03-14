@@ -4,6 +4,8 @@ import re
 import sys
 from typing import Generator
 import asyncio
+import pandas as pd
+
 website_cache_lock = asyncio.Lock()
 email_cache_lock = asyncio.Lock()
 
@@ -16,9 +18,6 @@ url_blacklist = {
         'bloomberg.com',
         'gnu.org',
     }
-def ensure_cache_columns(dataframe):
-    pass
-
 
 
 async def find_empty_website(cache_record) -> str:
@@ -99,16 +98,17 @@ async def set_company_website(cache_record, worker, verbose=False) -> None:
         else:
             print('{}\'s website info has already been populated or wasn\'t obtained correctly.'.format(worker.company_name))
 
-#todo: this is a big fucking problem. There is no way to append a df in place, and we can't
-async def set_company_emails(email_cache_record, worker, verbose=False) -> None:
+#todo: Move this and prly everything else to the Mgr module.
+async def set_company_emails(email_cache_record, worker, verbose=False):
+    # clumsy coverup of technically releasing the lock before reassignment...thanks a lot pandas.
+    await asyncio.sleep(1)
     assert worker.domain_name
-    add_these = [[i, worker.company_name] for i in worker.unique_emails]
-    begin, end = email_cache_record.shape[0], email_cache_record.shape[0] + len(add_these[0])
+    df_to_append = pd.DataFrame([[i, worker.company_name] for i in worker.unique_emails], columns=['email', 'company_name'])
     async with email_cache_lock:
-        for indx, rec in zip(range(begin, end), add_these):
-            email_cache_record.loc[indx] = [rec[0], rec[1], None, None]
+        res = email_cache_record.append(df_to_append)
         if verbose:
             print('INFO: successfully saved emails for {}'.format(worker.company_name))
+        return res
 
 def strip_http_prefix(url_string) -> str:
     """Uses regex grouping substitution.

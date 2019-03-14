@@ -6,12 +6,8 @@ import sys
 assert list(sys.version_info) >= [3, 7], \
     f"This program requires asyncio functionality introduced in Python 3.7.\nYou are currently using Python {sys.version_info.major}.{sys.version_info.minor}"
 
-from bing_website_finder.obj import WebsiteWorker, EmailWorker
+from bing_website_finder.obj import WebsiteWorker, EmailWorker, CacheManager
 from bing_website_finder.io.db_interface import df_to_company_db, email_db_to_df, company_db_to_df, df_to_email_db, get_db
-
-
-
-
 
 
 
@@ -35,48 +31,50 @@ def init_shared_email_cache(use_stored=False):
     return df
 
 
-def init_website_workers(num_workers, cache, api_key):
-    return (WebsiteWorker(cache, api_key) for i in range(num_workers))
+def init_website_workers(num_workers, cache_manager, api_key):
+    return (WebsiteWorker(cache_manager, api_key) for i in range(num_workers))
 
-def init_email_workers(num_workers, website_cache, email_cache, api_key):
-    return (EmailWorker(website_cache, email_cache, api_key) for i in range(num_workers))
+def init_email_workers(num_workers, cache_manager, api_key):
+    return (EmailWorker(cache_manager, api_key) for i in range(num_workers))
 
 
 ##################################################################################
 # Really clumsy initialization functions until I can make a working job-manager.
 def _init_all(infilepth, outfilepth, verbose, api_key, num_workers, testing=False):
     assert os.path.exists(infilepth), "Please check the infile path you've specified."
-    cache = pd.read_csv(infilepth)
-    website_workers = init_website_workers(num_workers, cache, api_key)
+    cache_manager = CacheManager(website_df=pd.read_csv(infilepth))
+    website_workers = init_website_workers(num_workers, cache_manager, api_key)
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(_run_job(website_workers, verbose, loop=loop))
-        df_to_company_db(cache)  # save progress.
-        email_cache = init_shared_email_cache(True)
-        email_workers = init_email_workers(num_workers, cache, email_cache, api_key)
+        df_to_company_db(cache_manager.website_cache)  # save progress.
+        cache_manager.email_cache = init_shared_email_cache(True)
+        email_workers = init_email_workers(num_workers, cache_manager=cache_manager, api_key=api_key)
         loop.run_until_complete(_run_job(email_workers, verbose, testing=testing, loop=loop))
     finally:
-        cache.to_csv(outfilepth, index=False)
+        cache_manager.website_cache.to_csv(outfilepth, index=False)
 
 def _init_emails(infilepth, outfilepth, verbose, api_key, num_workers, resume=False, testing=False):
+    cache_manager = CacheManager()
     if resume:
-        website_cache = company_db_to_df()
+        cache_manager.website_cache = company_db_to_df()
     else:
-        website_cache = pd.read_csv(infilepth)
-    email_cache = init_shared_email_cache(use_stored=resume)
+        cache_manager.website_cache = pd.read_csv(infilepth)
+    cache_manager.email_cache = init_shared_email_cache(use_stored=resume)
     if verbose:
         print('INFO: Datasources initialized')
-    email_workers = init_email_workers(num_workers, website_cache, email_cache, api_key)
+    email_workers = init_email_workers(num_workers, cache_manager, api_key)
     loop = asyncio.get_event_loop()
     try:
         if verbose:
             print('INFO: Starting async jobs.')
         loop.run_until_complete(_run_job(email_workers, verbose, testing, loop=loop))
+        print('_RUN_JOB() IS NOT PROPERLY AWAITING\n\n\n\n')
     finally:
         if verbose:
             print('INFO: Ending async jobs.')
-        df_to_email_db(email_cache)
-        email_cache.to_csv(outfilepth, index=False)
+        df_to_email_db(cache_manager.email_cache)
+        cache_manager.email_cache.to_csv(outfilepth, index=False)
 
 def init(infilepth, outfilepth, operation='all', resume=False, verbose=False, api_key=None, num_workers=5, testing=False):
     if operation == 'all':
