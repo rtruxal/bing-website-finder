@@ -16,9 +16,6 @@ url_blacklist = {
         'bloomberg.com',
         'gnu.org',
     }
-def ensure_cache_columns(dataframe):
-    pass
-
 
 
 async def find_empty_website(cache_record) -> str:

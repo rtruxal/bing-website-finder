@@ -4,10 +4,8 @@ import sys
 from time import sleep
 
 from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
+from bing_website_finder.obj.parsers import SearchResultWeb
 from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails, set_website_cache_complete, set_company_emails
-
-
-
 
 
 class Worker(object):
@@ -16,8 +14,8 @@ class Worker(object):
         'domain',
         'email',
     }
-    def __init__(self, shared_cache, api_key=None):
-        self.shared_cache = shared_cache
+    def __init__(self, cache_manager, api_key=None):
+        self.cache_manager = cache_manager
         try:
             self.loop = asyncio.get_running_loop()
         except:
@@ -110,9 +108,8 @@ class Worker(object):
 
 
 class EmailWorker(Worker):
-    def __init__(self, website_cache, email_cache, api_key=None, max_email_searches=3):
-        super(EmailWorker, self).__init__(website_cache, api_key)
-        self.email_cache = email_cache
+    def __init__(self, cache_manager, api_key=None, max_email_searches=3):
+        super(EmailWorker, self).__init__(cache_manager, api_key)
         self.worker_type = 'email'
 
         self.max_searches_per_suffix = max_email_searches
@@ -165,15 +162,15 @@ class EmailWorker(Worker):
 
     async def _try_set_cache_data(self, verbose=False):
         try:
-            await set_company_emails(self.email_cache, self, verbose=verbose)
-            await set_website_cache_complete(self.shared_cache, self, verbose=verbose)
+            self.cache_manager.email_cache = await set_company_emails(self.cache_manager.email_cache, self, verbose=verbose)
+            await set_website_cache_complete(self.cache_manager.website_cache, self, verbose=verbose)
         finally:
             self.reset()
 
     async def _find_company_name(self, verbose=False):
         if verbose:
             print('INFO: email_worker finding company name from cache.')
-        self.company_name, self.domain_name = await find_empty_domain(self.shared_cache)
+        self.company_name, self.domain_name = await find_empty_domain(self.cache_manager.website_cache)
         self.params['q'] = create_email_query(self.domain_name)
         if verbose:
             print('INFO: Domain {} selected.'.format(self.domain_name))
@@ -197,8 +194,8 @@ class EmailWorker(Worker):
             print('INFO: no emails for {} obtained'.format(self.company_name))
 
 class WebsiteWorker(Worker):
-    def __init__(self, shared_cache, api_key=None):
-        super(WebsiteWorker, self).__init__(shared_cache, api_key)
+    def __init__(self, cache_manager, api_key=None):
+        super(WebsiteWorker, self).__init__(cache_manager, api_key)
         self.worker_type = 'website'
         self.website = None
 
@@ -225,7 +222,7 @@ class WebsiteWorker(Worker):
                     print('WARN: Results not obtained from Bing for {}.'.format(self.company_name))
                     self.website = "N/A"
                 #####################
-                if self.website and await ok_to_set_website(self.shared_cache, self):
+                if self.website and await ok_to_set_website(self.cache_manager.website_cache, self):
                     await self._try_set_results(verbose=verbose)
                     if verbose:
                         print('INFO: Results for {} saved to cache.'.format(self.company_name))
@@ -237,12 +234,12 @@ class WebsiteWorker(Worker):
                 pass
 
     async def _find_company_name(self):
-        self.company_name = await find_empty_website(self.shared_cache)
+        self.company_name = await find_empty_website(self.cache_manager.website_cache)
         self.params['q'] = self.company_name
 
     async def _try_set_results(self, verbose=False):
         try:
-            await set_company_website(self.shared_cache, self, verbose=verbose)
+            await set_company_website(self.cache_manager.website_cache, self, verbose=verbose)
             self.company_name = None
             self.website = None
         except KeyError:
@@ -250,36 +247,3 @@ class WebsiteWorker(Worker):
             print('WARN: Failed to get url info for {}.'.format(self.company_name))
             self.website = None
 
-class SearchResultWeb(object):
-    def __init__(self, JSON):
-        assert '_type' in JSON.keys() and JSON['_type'] == 'SearchResponse', \
-            'Hey you can\'t parse that with this.'
-        if 'webPages' in JSON.keys():
-            self._successful_init(JSON)
-        else:
-            self._unsuccessful_init()
-
-
-    def _successful_init(self, JSON):
-        self.total_estimated_matches = JSON['webPages']['totalEstimatedMatches']
-
-        self.names = [i['name'] for i in JSON['webPages']['value']]
-        self.urls = [j['url'] for j in JSON['webPages']['value']]
-        self.snippets = [k['snippet'] for k in JSON['webPages']['value']]
-        self.safe_search = [l['isFamilyFriendly'] for l in JSON['webPages']['value']]
-
-        self.display_urls = [n['displayUrl'] for n in JSON['webPages']['value']]
-
-        self.increment_next_offset_by = len(self.names)
-        try:
-            self.crawl_dates = [m['dateLastCrawled'] for m in JSON['webPages']['value']]
-        except KeyError:
-            self.crawl_dates = [None for i in self.names]
-    def _unsuccessful_init(self):
-        self.total_estimated_matches = 0
-        self.names = []
-        self.urls = []
-        self.snippets = []
-        self.safe_search = []
-        self.display_urls = []
-        self.increment_next_offset_by = -1
