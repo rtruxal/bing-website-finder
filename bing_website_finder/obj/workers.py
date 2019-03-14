@@ -3,7 +3,7 @@ import aiohttp
 import sys
 from time import sleep
 
-from bing_website_finder.myconfig import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
+from bing_website_finder.config import MY_HEADERS, MY_PARAMS, MY_ENDPOINT
 from bing_website_finder.obj.parsers import SearchResultWeb
 from bing_website_finder.util import find_empty_website, ok_to_set_website, set_company_website, find_empty_domain, create_email_query, extract_emails, set_website_cache_complete, set_company_emails
 
