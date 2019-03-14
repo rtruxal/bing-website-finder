@@ -69,6 +69,7 @@ def _init_emails(infilepth, outfilepth, verbose, api_key, num_workers, resume=Fa
         if verbose:
             print('INFO: Starting async jobs.')
         loop.run_until_complete(_run_job(email_workers, verbose, testing, loop=loop))
+        print('_RUN_JOB() IS NOT PROPERLY AWAITING\n\n\n\n')
     finally:
         if verbose:
             print('INFO: Ending async jobs.')
