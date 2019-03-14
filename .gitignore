@@ -119,6 +119,6 @@ dmypy.json
 .pyre/
 
 # mine
-bing_website_finder/myconfig.py
 .vscode/
 test/
+bing_website_finder/myconfig.py

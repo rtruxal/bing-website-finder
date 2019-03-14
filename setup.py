@@ -4,7 +4,7 @@ with open('README.md', 'r') as infile:
     long_descr = infile.read()
 
 setup(name="bwf",
-      version='0.0.1',
+      version='0.0.2',
 
       description='Bing Website Finder (bwf) adds websites to a list of company names from the commandline.',
       long_description=long_descr,
@@ -32,9 +32,12 @@ setup(name="bwf",
       packages=find_packages(),
 
       include_package_data=True,
-      package_dir={'data' : 'bing_website_finder/data'},
-      package_data={'data' : ['data/*.csv']},
-
+      # package_dir={
+      #    'bing_website_finder' : 'bing_website_finder',
+      #    'io' : 'bing_website_finder/io',
+      #              },
+      package_data={'data' : ['data/*.sql', 'data/*.csv']},
+      # data_files=[('schema', ['io/schema.sql'])],
       entry_points={
         'console_scripts' : [
             'bwf = bing_website_finder.__main__:main',

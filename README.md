@@ -85,7 +85,7 @@ It's called `init()`. Here is it's declaration as of v0.0.1:
 def init(infilepth, outfilepth, verbose=False, api_key=None, num_workers=5):
     assert os.path.exists(infilepth), "Please check the infile path you've specified."
     cache = pd.read_csv(infilepth)
-    workers = (Worker(cache, api_key) for i in range(num_workers))
+    workers = (WebsiteWorker(cache, api_key) for i in range(num_workers))
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(_execute(workers, verbose, loop=loop))
