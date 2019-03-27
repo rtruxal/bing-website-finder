@@ -1,7 +1,14 @@
 Bing Website Finder (`bwf`)
 ===================
 --------------------------
+In development & trying to think of a better name.
 
+## Current todo's (3/2019):
+ - Add price calculator to cmdline interface.
+ - Add a flask frontend.
+ - Pandas dfs don't play nice as shared objects. Replace them with SQLLite or SQLAlchemy connector.
+ - Dockerize for web deployment
+ 
 ## Purpose:
 `bing_website_finder` (aka `bwf`) finds websites for an arbitrarily long list of company names.
 It does this using an `asyncio` event loop, and is therefore both exceptionally fast & requires `>=` python3.7
