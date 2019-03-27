@@ -12,7 +12,7 @@ from bing_website_finder.loop_control import init
 from bing_website_finder.io.db_interface import db_existance_checks
 
 # For testing
-from bing_website_finder.myconfig import DEFAULT_SEARCH_API_V7_KEY as default_key
+from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
 # For production
 #from bing_website_finder.config import DEFAULT_SEARCH_API_V7_KEY as default_key
 SUPPORTED_OPERATIONS = {'all', 'emails', 'websites'}

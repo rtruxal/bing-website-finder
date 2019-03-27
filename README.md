@@ -6,6 +6,12 @@ Bing Website Finder (`bwf`)
 `bing_website_finder` (aka `bwf`) finds websites for an arbitrarily long list of company names.
 It does this using an `asyncio` event loop, and is therefore both exceptionally fast & requires `>=` python3.7
 
+Update: `bwf` will now find email addresses & attempt to profile company employees. 
+It will do this by default after finding a website, or you can feed a list of websites in like:
+```sh
+~$ bwf -o emails -h /path/to/infile_with_websites.csv /desired/outfile/path.csv
+```
+
 <br>
 
 ## Requirements:
